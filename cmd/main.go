@@ -1,11 +1,12 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"log"
 	"todo-service/internal/config"
 	"todo-service/internal/interface/router"
+	"todo-service/pkg/logger"
 )
 
 func main() {
@@ -15,10 +16,12 @@ func main() {
 
 	router.RouteTasks(r)
 
+	ctx := context.Background()
+
 	err := r.Run(fmt.Sprintf(":%d", config.AppConfig.Port))
 	if err != nil {
 		panic(err)
 	} else {
-		log.Printf("Server listening on port: %d\n", config.AppConfig.Port)
+		logger.Info(ctx, fmt.Sprintf("Server listening on port: %d\n", config.AppConfig.Port))
 	}
 }
