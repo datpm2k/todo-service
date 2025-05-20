@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"todo-service/internal/config"
@@ -9,12 +10,12 @@ import (
 )
 
 func main() {
-	r := gin.Default()
-
 	config.LoadConfig()
-	logx.Init()
 
+	r := gin.Default()
 	router.RouteTasks(r)
+
+	logx.Info(context.Background(), "Started application")
 
 	err := r.Run(fmt.Sprintf(":%d", config.AppConfig.Port))
 	if err != nil {
